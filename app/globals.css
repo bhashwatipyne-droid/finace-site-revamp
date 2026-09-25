@@ -1,0 +1,233 @@
+:root {
+  --green: #9ec44d;
+  --green-deep: #4f8216;
+  --green-mid: #6fa82e;
+  --green-soft: #c6e389;
+  --green-pale: #d9efa4;
+  --green-ink: #dcefb4;
+  --olive: #707b52;
+  --ink: #111111;
+  --black: #0a0a0a;
+  --grey: #7f8082;
+  --grey-mid: #abacad;
+  --grey-light: #e3e4e4;
+  --text-2: #3a3b3c;
+  --text-3: #4a4b4c;
+  --text-4: #5c5f58;
+
+  --grad-cta: linear-gradient(118deg, #4f8216 0%, #7da836 100%);
+  --grad-num: linear-gradient(118deg, #6fa82e 0%, #9ec44d 50%, #d9efa4 100%);
+  --grad-thumb: linear-gradient(118deg, #4f8216 0%, #7da836 55%, #c6e389 100%);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --font-inter: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-barlow: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+
+  --header-h: 74px;
+  --container: min(100% - 40px, 1200px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+.font-barlow {
+  font-family: var(--font-barlow);
+}
+
+::selection {
+  background: var(--green);
+  color: var(--ink);
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+}
+
+.container {
+  width: var(--container);
+  margin-inline: auto;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- keyframes (from the prototype) ---------- */
+@keyframes fin {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fline {
+  from {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Component animations (marquees, pulses) keep their @keyframes inside
+   their CSS Module: Modules scope animation names, so global ones can't match. */
+
+/* ---------- headline line reveal ---------- */
+[data-line] {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+[data-line] > span {
+  display: block;
+  padding-bottom: 0.06em;
+  animation: fline 0.95s var(--ease-out) both;
+}
+
+/* ---------- section reveal on scroll ----------
+   Content stays visible without JS; the hidden state only applies once
+   the reveal observer has marked the document as ready. */
+html.reveal-ready [data-reveal]:not(.shown) {
+  opacity: 0;
+}
+html.reveal-ready [data-reveal].shown {
+  animation: fin 0.8s var(--ease-reveal) both;
+}
+
+[data-stagger].shown > * {
+  animation: fin 0.8s var(--ease-out) both;
+}
+html.reveal-ready [data-stagger]:not(.shown) > * {
+  opacity: 0;
+}
+[data-stagger].shown > *:nth-child(2) {
+  animation-delay: 0.08s;
+}
+[data-stagger].shown > *:nth-child(3) {
+  animation-delay: 0.16s;
+}
+[data-stagger].shown > *:nth-child(4) {
+  animation-delay: 0.24s;
+}
+[data-stagger].shown > *:nth-child(5) {
+  animation-delay: 0.32s;
+}
+
+[data-magnetic] {
+  will-change: transform;
+  transition: transform 0.35s var(--ease-out);
+}
+[data-chip] {
+  will-change: transform;
+  transition: transform 0.55s var(--ease-out);
+}
+
+/* ---------- shared bits ---------- */
+.eyebrow {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+.eyebrow-cond {
+  margin: 0;
+  font-family: var(--font-cond);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 2px;
+  font-weight: 700;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.35s var(--ease-out);
+}
+.btn-green {
+  background: var(--grad-cta);
+  color: #ffffff;
+}
+.btn-green:hover {
+  background: var(--ink);
+  color: #ffffff;
+}
+.btn-black {
+  background: var(--ink);
+  color: #ffffff;
+}
+.btn-black:hover {
+  background: var(--grad-cta);
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-line] > span,
+  [data-stagger] > *,
+  [data-reveal],
+  html.reveal-ready [data-reveal]:not(.shown),
+  html.reveal-ready [data-stagger]:not(.shown) > * {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,152 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--grey-light);
+}
+
+.bar {
+  width: var(--container);
+  margin-inline: auto;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+.logo img {
+  display: block;
+  height: 34px;
+  width: auto;
+}
+
+.nav {
+  display: none;
+  gap: 30px;
+  align-items: center;
+  font-family: var(--font-cond);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--grey);
+}
+
+.navLink,
+.navActive {
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.navLink {
+  color: inherit;
+}
+.navLink:hover {
+  color: var(--ink);
+  border-bottom-color: var(--green);
+}
+.navActive {
+  color: var(--ink);
+  border-bottom-color: var(--green);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cta {
+  font-size: 15px;
+  padding: 12px 20px;
+  gap: 8px;
+}
+.arrow {
+  font-family: var(--font-cond);
+}
+
+.toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  border: 1px solid var(--grey-light);
+  background: #ffffff;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--ink);
+  transition:
+    transform 0.3s var(--ease-out),
+    opacity 0.2s ease;
+}
+.toggle .barTopOpen {
+  transform: translateY(6px) rotate(45deg);
+}
+.toggle .barMidOpen {
+  opacity: 0;
+}
+.toggle .barBotOpen {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.mobileNav {
+  border-top: 1px solid var(--grey-light);
+  background: #ffffff;
+  padding: 8px 20px 18px;
+}
+.mobileNav a {
+  display: block;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--grey-light);
+  font-family: var(--font-cond);
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--grey);
+}
+.mobileNav a.mobileActive {
+  color: var(--ink);
+}
+.mobileNav[hidden] {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .nav {
+    display: flex;
+  }
+  .toggle,
+  .mobileNav {
+    display: none !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo img {
+    height: 28px;
+  }
+  .cta {
+    padding: 11px 14px;
+    font-size: 14px;
+  }
+}
