@@ -84,7 +84,76 @@ export default function Work() {
     let stageH = 0;
     let visible = true;
     let raf = 0;
+    let labelKey = "";
     const nodes: Pt[] = [];
+    // The grid and the glowing curve never move, and their blurred glow is by far
+    // the most expensive thing to paint, so they're rendered once per resize into
+    // this layer and copied onto the canvas each frame.
+    const layer = document.createElement("canvas");
+    const lctx = layer.getContext("2d");
+
+    const pathPt = (k: number): Pt => {
+      if (!vertical) return { x: k * W, y: curve(k, STOPS, LEVELS, [-0.022, 0.026]) * H };
+      // Vertical roadmap: runs down the stage, drifting gently left/right.
+      const xs = [0.14, 0.22, 0.12, 0.2, 0.13];
+      const y = stageTop + k * stageH;
+      return { x: curve(k, STOPS, xs, [0.02, -0.02]) * W, y };
+    };
+
+    const paintLayer = () => {
+      if (!lctx) return;
+      layer.width = cv.width;
+      layer.height = cv.height;
+      lctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      lctx.clearRect(0, 0, W, H);
+
+      // perspective grid floor
+      const hz = H * 0.3;
+      lctx.lineWidth = 1;
+      for (let i = -14; i <= 14; i++) {
+        const gx = W / 2 + i * (W / 12);
+        lctx.beginPath();
+        lctx.moveTo(W / 2 + i * (W / 90), hz);
+        lctx.lineTo(gx, H + 40);
+        const a = 0.16 * (1 - Math.abs(i) / 16);
+        lctx.strokeStyle = `rgba(158,196,77,${Math.max(0.03, a).toFixed(3)})`;
+        lctx.stroke();
+      }
+      for (let i = 1; i <= 16; i++) {
+        const k = i / 16;
+        const y = hz + Math.pow(k, 2.3) * (H + 40 - hz);
+        lctx.beginPath();
+        lctx.moveTo(0, y);
+        lctx.lineTo(W, y);
+        lctx.strokeStyle = `rgba(158,196,77,${(0.03 + 0.12 * k).toFixed(3)})`;
+        lctx.stroke();
+      }
+
+      // roadmap curve with its glow
+      const stroke = (width: number, color: string | CanvasGradient, blur: number) => {
+        lctx.beginPath();
+        for (let i = 0; i <= 220; i++) {
+          const p = pathPt(i / 220);
+          if (i) lctx.lineTo(p.x, p.y);
+          else lctx.moveTo(p.x, p.y);
+        }
+        lctx.lineWidth = width;
+        lctx.lineCap = "round";
+        lctx.shadowColor = blur ? "rgba(158,196,77,.75)" : "transparent";
+        lctx.shadowBlur = blur;
+        lctx.strokeStyle = color;
+        lctx.stroke();
+        lctx.shadowBlur = 0;
+      };
+      const grad = vertical
+        ? lctx.createLinearGradient(0, stageTop, 0, stageTop + stageH)
+        : lctx.createLinearGradient(0, H * 0.8, W, H * 0.3);
+      grad.addColorStop(0, "#4F8216");
+      grad.addColorStop(0.5, "#9EC44D");
+      grad.addColorStop(1, "#E4F5BC");
+      stroke(9, "rgba(158,196,77,.18)", 26);
+      stroke(2.6, grad, 10);
+    };
 
     const fit = () => {
       const r = section.getBoundingClientRect();
@@ -96,44 +165,47 @@ export default function Work() {
       stageH = st ? st.height : H;
       cv.width = Math.round(W * dpr);
       cv.height = Math.round(H * dpr);
+      nodes.length = 0;
+      STOPS.forEach((k) => nodes.push(pathPt(k)));
+      paintLayer();
+      labelKey = "";
     };
 
-    const pathPt = (k: number): Pt => {
-      if (!vertical) return { x: k * W, y: curve(k, STOPS, LEVELS, [-0.022, 0.026]) * H };
-      // Vertical roadmap: runs down the stage, drifting gently left/right.
-      const xs = [0.14, 0.22, 0.12, 0.2, 0.13];
-      const y = stageTop + k * stageH;
-      return { x: curve(k, STOPS, xs, [0.02, -0.02]) * W, y };
+    // Labels ride their node. Positions only change on resize or when the
+    // active/hovered step changes, so this skips work on every other frame.
+    const placeLabels = (active: number, hover: number) => {
+      const key = `${active}|${hover}|${W}|${H}`;
+      if (key === labelKey) return;
+      labelKey = key;
+      nodes.forEach((p, i) => {
+        const el = labelRefs.current[i];
+        if (!el) return;
+        const on = i === active || i === hover;
+        if (vertical) {
+          const left = Math.round(p.x + 34);
+          el.style.left = `${left}px`;
+          el.style.width = `${Math.max(160, Math.min(246, W - left - 16))}px`;
+          el.style.top = `${Math.round(p.y - 26)}px`;
+        } else {
+          el.style.width = "246px";
+          el.style.left = `${Math.round(Math.max(12, Math.min(W - 258, p.x - 18)))}px`;
+          const below = p.y + 20 + el.offsetHeight < H - 4;
+          el.style.top = `${Math.round(below ? p.y + 14 : Math.max(4, H - el.offsetHeight - 4))}px`;
+        }
+        el.style.opacity = on ? "1" : ".62";
+        el.style.zIndex = on ? "4" : "2";
+        el.dataset.on = on ? "true" : "false";
+      });
     };
 
     const draw = (ts: number) => {
       const t = ts / 1000;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, W, H);
       const active = stepRef.current;
       const hover = hoverRef.current;
-
-      // perspective grid floor
-      const hz = H * 0.3;
-      ctx.lineWidth = 1;
-      for (let i = -14; i <= 14; i++) {
-        const gx = W / 2 + i * (W / 12);
-        ctx.beginPath();
-        ctx.moveTo(W / 2 + i * (W / 90), hz);
-        ctx.lineTo(gx, H + 40);
-        const a = 0.16 * (1 - Math.abs(i) / 16);
-        ctx.strokeStyle = `rgba(158,196,77,${Math.max(0.03, a).toFixed(3)})`;
-        ctx.stroke();
-      }
-      for (let i = 1; i <= 16; i++) {
-        const k = i / 16;
-        const y = hz + Math.pow(k, 2.3) * (H + 40 - hz);
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(W, y);
-        ctx.strokeStyle = `rgba(158,196,77,${(0.03 + 0.12 * k).toFixed(3)})`;
-        ctx.stroke();
-      }
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(layer, 0, 0);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       // stars
       stars.forEach((s) => {
@@ -143,31 +215,6 @@ export default function Work() {
         ctx.arc(s.x * W, s.y * H * 0.72, s.r, 0, 6.2832);
         ctx.fill();
       });
-
-      // roadmap curve
-      const stroke = (width: number, color: string | CanvasGradient, blur: number) => {
-        ctx.beginPath();
-        for (let i = 0; i <= 220; i++) {
-          const p = pathPt(i / 220);
-          if (i) ctx.lineTo(p.x, p.y);
-          else ctx.moveTo(p.x, p.y);
-        }
-        ctx.lineWidth = width;
-        ctx.lineCap = "round";
-        ctx.shadowColor = blur ? "rgba(158,196,77,.75)" : "transparent";
-        ctx.shadowBlur = blur;
-        ctx.strokeStyle = color;
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-      };
-      const grad = vertical
-        ? ctx.createLinearGradient(0, stageTop, 0, stageTop + stageH)
-        : ctx.createLinearGradient(0, H * 0.8, W, H * 0.3);
-      grad.addColorStop(0, "#4F8216");
-      grad.addColorStop(0.5, "#9EC44D");
-      grad.addColorStop(1, "#E4F5BC");
-      stroke(9, "rgba(158,196,77,.18)", 26);
-      stroke(2.6, grad, 10);
 
       // travelling pulse
       const pp = pathPt((t * 0.1) % 1);
@@ -180,10 +227,7 @@ export default function Work() {
       ctx.fill();
 
       // nodes
-      nodes.length = 0;
-      STOPS.forEach((k, i) => {
-        const p = pathPt(k);
-        nodes.push(p);
+      nodes.forEach((p, i) => {
         const on = i === active || i === hover;
         const pulse = on ? 1 + 0.1 * Math.sin(t * 2.6) : 1;
         const R = (on ? 30 : 22) * pulse;
@@ -214,26 +258,7 @@ export default function Work() {
         ctx.restore();
       });
 
-      // labels ride their node
-      nodes.forEach((p, i) => {
-        const el = labelRefs.current[i];
-        if (!el) return;
-        const on = i === active || i === hover;
-        if (vertical) {
-          const left = Math.round(p.x + 34);
-          el.style.left = `${left}px`;
-          el.style.width = `${Math.max(160, Math.min(246, W - left - 16))}px`;
-          el.style.top = `${Math.round(p.y - 26)}px`;
-        } else {
-          el.style.width = "246px";
-          el.style.left = `${Math.round(Math.max(12, Math.min(W - 258, p.x - 18)))}px`;
-          const below = p.y + 20 + el.offsetHeight < H - 4;
-          el.style.top = `${Math.round(below ? p.y + 14 : Math.max(4, H - el.offsetHeight - 4))}px`;
-        }
-        el.style.opacity = on ? "1" : ".62";
-        el.style.zIndex = on ? "4" : "2";
-        el.dataset.on = on ? "true" : "false";
-      });
+      placeLabels(active, hover);
     };
 
     const loop = (ts: number) => {
