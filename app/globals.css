@@ -50,7 +50,7 @@ body {
   overflow-x: clip;
 }
 
-body.page-barlow {
+.font-barlow {
   font-family: var(--font-barlow);
 }
 

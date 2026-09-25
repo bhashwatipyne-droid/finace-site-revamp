@@ -1,0 +1,149 @@
+.section {
+  position: relative;
+  padding: 36px 0 40px;
+  background: #ffffff;
+  background-image: radial-gradient(circle, var(--grey-light) 1.4px, transparent 1.4px);
+  background-size: 26px 26px;
+  overflow: hidden;
+}
+
+.circleA,
+.circleB {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.circleA {
+  left: 3%;
+  top: 30%;
+  width: 120px;
+  height: 120px;
+  background: var(--green);
+  opacity: 0.16;
+  animation: fpulse 9s ease-in-out infinite;
+}
+.circleB {
+  right: 4%;
+  bottom: 10%;
+  width: 150px;
+  height: 150px;
+  background: var(--green-mid);
+  opacity: 0.1;
+  animation: fpulse 11s ease-in-out infinite;
+}
+
+.grid {
+  position: relative;
+  z-index: 2;
+  width: var(--container);
+  margin-inline: auto;
+  display: grid;
+  gap: 56px;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+  align-items: center;
+}
+
+.copy {
+  display: grid;
+  gap: 28px;
+  align-content: center;
+}
+
+.tag {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--ink);
+  padding: 7px 14px;
+  font-family: var(--font-cond);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.tagDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: linear-gradient(118deg, #6fa82e, #9ec44d);
+}
+
+.title {
+  margin: 0;
+  font-size: 76px;
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+.gradText {
+  background: var(--grad-cta);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lede {
+  margin: 0;
+  max-width: 44ch;
+  font-size: 19px;
+  line-height: 1.65;
+  color: var(--text-3);
+}
+
+.cta {
+  font-size: 16px;
+  padding: 16px 26px;
+}
+
+.map {
+  margin: 0;
+  position: relative;
+  width: 118%;
+  max-width: none;
+  margin-left: -9%;
+  height: 600px;
+}
+
+@media (max-width: 1100px) {
+  .title {
+    font-size: clamp(48px, 6.6vw, 76px);
+  }
+}
+
+@media (max-width: 899px) {
+  .section {
+    padding: 48px 0 24px;
+  }
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .copy {
+    gap: 22px;
+  }
+  .lede {
+    font-size: 17px;
+  }
+  .map {
+    width: calc(100% + 24px);
+    margin-left: -12px;
+    height: clamp(260px, 62vw, 520px);
+  }
+  .circleA {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: clamp(40px, 12vw, 56px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .circleA,
+  .circleB {
+    animation: none;
+  }
+}
