@@ -1,0 +1,113 @@
+.section {
+  padding: 110px 0;
+  background: var(--grey-light);
+}
+.eyebrow {
+  color: var(--olive);
+}
+.title {
+  margin: 26px 0 0;
+  font-size: clamp(32px, 4.4vw, 58px);
+  font-weight: 900;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+
+.list {
+  margin-top: 40px;
+  display: grid;
+  gap: 10px;
+}
+.item {
+  background: #ffffff;
+  border-left: 3px solid var(--grey-light);
+  transition: border-color 0.3s ease;
+}
+.itemOn {
+  border-left-color: var(--green);
+}
+.h3 {
+  margin: 0;
+}
+.q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 24px 26px;
+  font-family: var(--font-barlow);
+  font-size: clamp(19px, 2.2vw, 26px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.plus {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--grad-cta);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  transition: transform 0.35s ease;
+}
+.itemOn .plus {
+  transform: rotate(45deg);
+}
+
+/* grid-rows trick animates to the answer's natural height */
+.a {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.4s ease,
+    opacity 0.4s ease;
+}
+.a > p {
+  overflow: hidden;
+  min-height: 0;
+  margin: 0;
+  padding: 0 26px;
+  max-width: 60ch;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-3);
+}
+.itemOn .a {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.itemOn .a > p {
+  padding-bottom: 26px;
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 72px 0 80px;
+  }
+  .title {
+    margin-top: 18px;
+  }
+  .list {
+    margin-top: 28px;
+  }
+  .q {
+    padding: 20px 18px;
+  }
+  .a > p {
+    padding-inline: 18px;
+    font-size: 16px;
+  }
+  .itemOn .a > p {
+    padding-bottom: 22px;
+  }
+}

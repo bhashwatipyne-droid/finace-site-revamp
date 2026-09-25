@@ -1,0 +1,148 @@
+.section {
+  padding: 104px 0 110px;
+  background: #f7f8f5;
+}
+.head {
+  display: grid;
+  gap: 14px;
+  max-width: 640px;
+}
+.eyebrow {
+  color: var(--green-deep);
+}
+.title {
+  margin: 0;
+  font-size: clamp(34px, 4.2vw, 56px);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.grid {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+  gap: 22px;
+  align-items: stretch;
+}
+
+.card {
+  margin: 0;
+  background: #ffffff;
+  border: 1px solid #e6e9df;
+  border-radius: 22px;
+  padding: clamp(26px, 2.6vw, 34px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 18px;
+}
+.mark {
+  font-family: var(--font-barlow);
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 0.6;
+  color: var(--green);
+}
+.quote {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+.pull {
+  margin: 0;
+  font-size: clamp(18px, 1.4vw, 20px);
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.detail {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-3);
+  text-wrap: pretty;
+}
+
+.cap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-top: 1px solid #eef0ea;
+  padding-top: 18px;
+}
+.who {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(118deg, #4f8216, #9ec44d);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 15px;
+}
+.whoText {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+.name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.role {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--grey);
+}
+.li {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid #d5d7d2;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  transition:
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+.li:hover {
+  border-color: var(--green-deep);
+  color: var(--green-deep);
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 72px 0 80px;
+  }
+  .grid {
+    margin-top: 36px;
+    gap: 16px;
+  }
+  .card {
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .cap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
