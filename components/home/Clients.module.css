@@ -1,3 +1,13 @@
+/* Scoped with this module so the animation name resolves (see Hero.module.css). */
+@keyframes fmarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 .section {
   padding: 104px 0 110px;
   background: #ffffff;

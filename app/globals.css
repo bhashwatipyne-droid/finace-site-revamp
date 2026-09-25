@@ -117,44 +117,8 @@ textarea {
     transform: none;
   }
 }
-@keyframes fmarquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-@keyframes v2mq {
-  from {
-    transform: translateX(-50%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-@keyframes v2pulse {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.12);
-    opacity: 0.55;
-  }
-}
-@keyframes fpulse {
-  0%,
-  100% {
-    opacity: 0.35;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.1;
-    transform: scale(1.45);
-  }
-}
+/* Component animations (marquees, pulses) keep their @keyframes inside
+   their CSS Module: Modules scope animation names, so global ones can't match. */
 
 /* ---------- headline line reveal ---------- */
 [data-line] {

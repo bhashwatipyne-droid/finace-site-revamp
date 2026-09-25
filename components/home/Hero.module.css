@@ -1,3 +1,25 @@
+/* Keyframes live in this module: CSS Modules scopes animation names, so a
+   global @keyframes of the same name would never match. */
+@keyframes v2mq {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes v2pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.12);
+    opacity: 0.55;
+  }
+}
+
 .hero {
   position: relative;
   box-sizing: border-box;

@@ -1,3 +1,16 @@
+/* Scoped with this module so the animation name resolves (see Hero.module.css). */
+@keyframes fpulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.1;
+    transform: scale(1.45);
+  }
+}
+
 .section {
   position: relative;
   padding: 36px 0 40px;

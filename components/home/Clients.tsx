@@ -6,7 +6,8 @@ function Card({ c, hidden }: { c: Client; hidden?: boolean }) {
   return (
     <article className={styles.card} title={c.name} aria-hidden={hidden || undefined}>
       <div className={styles.logo}>
-        <Image src={`/clients/${c.logo}.png`} alt={hidden ? "" : `${c.name} logo`} fill sizes="240px" />
+        {/* Logos are pre-sized for 2x screens; skipping the optimizer avoids a second lossy pass that blurs them. */}
+        <Image src={`/clients/${c.logo}.webp`} alt={hidden ? "" : `${c.name} logo`} fill sizes="240px" unoptimized />
       </div>
       <div className={styles.meta}>
         <span className={styles.name}>{c.name}</span>
