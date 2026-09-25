@@ -22,13 +22,15 @@ npm run dev                  # http://localhost:3000
 
 ## Brief form → Supabase
 
-The "Build your one-line brief" form (Home and Contact) posts to `app/api/brief/route.ts`, which validates the input and inserts a row into the `briefs` table in Supabase with the server-only service-role key.
+The "Build your one-line brief" form (Home and Contact) posts to `app/api/brief/route.ts`. The route validates the input and calls the database function `submit_website_brief`, which stores one row in `website_briefs`.
 
-1. Create a Supabase project.
-2. In the SQL editor, run `supabase/migrations/0001_briefs.sql`.
-3. Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in `.env.local` and in your hosting provider's environment settings.
+The table is locked: row-level security is on, it has no policies, and the API roles have no table privileges. The function is insert-only and limits each email address to 5 briefs an hour. So the site only needs the **publishable** key, never the service-role key.
 
-Submissions then appear under **Table editor → briefs**. The table has row-level security on and no public policies, so the public anon key can't read or write it. Until the variables are set, the form shows a "not connected yet" message and saves nothing.
+- Schema: `supabase/migrations/0001_website_briefs.sql` (already applied to the FinAce Supabase project)
+- Settings: `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`, in `.env.local` locally and in Vercel for deployments
+- Viewing submissions: Supabase → **Table editor → website_briefs**. Use the `status` column (`new`, `contacted`, `won`, `lost`, `spam`) to track follow-up.
+
+Until both settings exist, the form shows a "not connected yet" message and saves nothing.
 
 ## Structure
 

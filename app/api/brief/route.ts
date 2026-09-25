@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { briefQuestions } from "@/lib/content";
 
-// Stores "Build your one-line brief" submissions in Supabase (table: public.briefs).
-// Needs SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY on the server. The key never
-// reaches the browser; the table has row-level security on and no public policies.
+// Stores "Build your one-line brief" submissions in Supabase through the
+// insert-only function public.submit_website_brief (see supabase/migrations).
+// Needs SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY on the server. The table itself
+// is locked (RLS on, no policies, no grants), so this key can only add briefs.
 
 export const runtime = "nodejs";
 
@@ -61,26 +62,39 @@ export async function POST(req: Request) {
   if (!EMAIL_RE.test(row.email)) return NextResponse.json({ error: "That email address doesn't look right." }, { status: 422 });
 
   const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) {
-    console.error("[brief] SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY is not set");
+    console.error("[brief] SUPABASE_URL or SUPABASE_PUBLISHABLE_KEY is not set");
     return NextResponse.json({ error: "The form isn't connected yet." }, { status: 503 });
   }
 
   try {
-    const res = await fetch(`${url.replace(/\/$/, "")}/rest/v1/briefs`, {
+    const res = await fetch(`${url.replace(/\/$/, "")}/rest/v1/rpc/submit_website_brief`, {
       method: "POST",
-      headers: {
-        apikey: key,
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-        Prefer: "return=minimal",
-      },
-      body: JSON.stringify(row),
+      headers: { apikey: key, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        p_name: row.name,
+        p_email: row.email,
+        p_need: row.need,
+        p_audience: row.audience,
+        p_timeline: row.timeline,
+        p_company: row.company,
+        p_phone: row.phone,
+        p_notes: row.notes,
+        p_source_page: row.source_page,
+        p_user_agent: row.user_agent,
+      }),
       cache: "no-store",
     });
     if (!res.ok) {
-      console.error("[brief] Supabase insert failed", res.status, await res.text());
+      const detail = await res.text();
+      if (detail.includes("rate_limited")) {
+        return NextResponse.json({ error: "We've already received several briefs from this email in the last hour." }, { status: 429 });
+      }
+      if (detail.includes("invalid_email")) {
+        return NextResponse.json({ error: "That email address doesn't look right." }, { status: 422 });
+      }
+      console.error("[brief] Supabase insert failed", res.status, detail);
       return NextResponse.json({ error: "We couldn't save your brief." }, { status: 502 });
     }
   } catch (err) {
