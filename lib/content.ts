@@ -74,11 +74,8 @@ export type Client = { name: string; logo: string; category: string };
 export const clientRows: Client[][] = [
   [
     { name: "ICICI Prudential Mutual Fund", logo: "icici-prudential-mf", category: "Investment" },
-    { name: "ICICI ETF", logo: "icici-etf", category: "Investment" },
-    { name: "ICICI Prudential iSIF", logo: "isif", category: "Investment" },
     { name: "Aditya Birla Sun Life Mutual Fund", logo: "aditya-birla-sun-life-amc", category: "Investment" },
     { name: "Aditya Birla Capital Mutual Funds", logo: "aditya-birla-capital", category: "Investment" },
-    { name: "Apex SIF", logo: "apex-sif", category: "Investment" },
     { name: "Canara Robeco Mutual Fund", logo: "canara-robeco-mf", category: "Investment" },
     { name: "Franklin Templeton", logo: "franklin-templeton", category: "Investment" },
     { name: "Sapphire SIF", logo: "sapphire-sif", category: "Investment" },
