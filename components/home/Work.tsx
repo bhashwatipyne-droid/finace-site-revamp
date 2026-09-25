@@ -4,7 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { workSteps } from "@/lib/content";
 import styles from "./Work.module.css";
 
-const STEP_MS = 4600;
+// One full journey of the travelling light along the roadmap. Steps open as the
+// light reaches each star, so this also sets the walkthrough pace (~4s a step).
+const LOOP_MS = 20000;
 // Below this width the roadmap runs top-to-bottom so labels never collide.
 const VERTICAL_BELOW = 900;
 
@@ -36,19 +38,19 @@ export default function Work() {
   const userPaused = useRef(false);
   const stepRef = useRef(0);
   const hoverRef = useRef(-1);
-  stepRef.current = step;
+  const playingRef = useRef(true);
+  // Where the travelling light is along the path (0–1). It is the walkthrough's
+  // single clock: the active step is whichever star the light last reached.
+  const progressRef = useRef(STOPS[0]);
 
-  // Auto walkthrough.
   useEffect(() => {
-    if (!playing) return;
-    const id = window.setInterval(() => {
-      if (document.hidden) return;
-      setStep((s) => (s + 1) % workSteps.length);
-    }, STEP_MS);
-    return () => window.clearInterval(id);
+    playingRef.current = playing;
   }, [playing]);
 
+  // Picking a step moves the light onto its star and holds it there.
   const select = useCallback((i: number) => {
+    progressRef.current = STOPS[i];
+    stepRef.current = i;
     setStep(i);
     setPlaying(false);
   }, []);
@@ -216,8 +218,8 @@ export default function Work() {
         ctx.fill();
       });
 
-      // travelling pulse
-      const pp = pathPt((t * 0.1) % 1);
+      // travelling light (its position drives which step is open)
+      const pp = pathPt(progressRef.current);
       const pg = ctx.createRadialGradient(pp.x, pp.y, 0, pp.x, pp.y, 26);
       pg.addColorStop(0, "rgba(255,255,255,.85)");
       pg.addColorStop(1, "rgba(217,239,164,0)");
@@ -261,9 +263,26 @@ export default function Work() {
       placeLabels(active, hover);
     };
 
+    let lastTs = 0;
     const loop = (ts: number) => {
-      // Reduced motion: time stays frozen, so only step changes redraw anything.
-      if (visible && !document.hidden) draw(reduce ? 0 : ts);
+      const dt = lastTs ? Math.min(ts - lastTs, 100) : 0;
+      lastTs = ts;
+      if (visible && !document.hidden) {
+        // Advance the light; with reduced motion it stays put and steps change only on click.
+        if (playingRef.current && !reduce) {
+          progressRef.current = (progressRef.current + dt / LOOP_MS) % 1;
+          // Active step = the last star the light has reached. Before it reaches the
+          // first star on a new lap, the last step stays open.
+          let reached = STOPS.length - 1;
+          for (let i = 0; i < STOPS.length; i++) if (progressRef.current >= STOPS[i]) reached = i;
+          if (reached !== stepRef.current) {
+            stepRef.current = reached;
+            setStep(reached);
+          }
+        }
+        // Reduced motion: time stays frozen, so only step changes redraw anything.
+        draw(reduce ? 0 : ts);
+      }
       raf = requestAnimationFrame(loop);
     };
 
