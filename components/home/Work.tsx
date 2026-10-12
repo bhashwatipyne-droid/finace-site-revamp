@@ -12,15 +12,16 @@ const VERTICAL_BELOW = 900;
 
 type Pt = { x: number; y: number };
 
-// Five stops rising left→right, gently wavy like a roadmap (from the prototype).
-const STOPS = [0.09, 0.29, 0.475, 0.665, 0.87];
-const LEVELS = [0.74, 0.66, 0.56, 0.46, 0.33];
+// Four stops rising left→right, gently wavy like a roadmap (from the design).
+const STOPS = [0.1, 0.36, 0.62, 0.87];
+const LEVELS = [0.72, 0.6, 0.47, 0.33];
 
 function curve(k: number, stops: number[], levels: number[], wave: [number, number]) {
+  const last = stops.length - 1;
   if (k <= stops[0]) return levels[0];
-  if (k >= stops[4]) return levels[4];
+  if (k >= stops[last]) return levels[last];
   let i = 0;
-  while (i < 4 && k > stops[i + 1]) i++;
+  while (i < last && k > stops[i + 1]) i++;
   const t = (k - stops[i]) / (stops[i + 1] - stops[i]);
   const e = t * t * (3 - 2 * t);
   const mid = Math.sin(t * Math.PI) * (i % 2 ? wave[0] : wave[1]);
@@ -97,7 +98,7 @@ export default function Work() {
     const pathPt = (k: number): Pt => {
       if (!vertical) return { x: k * W, y: curve(k, STOPS, LEVELS, [-0.022, 0.026]) * H };
       // Vertical roadmap: runs down the stage, drifting gently left/right.
-      const xs = [0.14, 0.22, 0.12, 0.2, 0.13];
+      const xs = [0.14, 0.22, 0.12, 0.2];
       const y = stageTop + k * stageH;
       return { x: curve(k, STOPS, xs, [0.02, -0.02]) * W, y };
     };
@@ -338,10 +339,11 @@ export default function Work() {
       <div className={styles.copy}>
         <p className={`eyebrow ${styles.eyebrow}`}>How We Work</p>
         <h2 id="work-title" className={styles.title}>
-          From one-line briefs to creatives that get remembered.
+          From idea to execution and everything beyond.
         </h2>
         <p className={styles.lede}>
-          We dive deep into research, uncover strategic insights and build ideas that connect, engage and drive impact.
+          We work with you across the entire journey, from shaping the initial idea to understanding the subject,
+          building the strategy, executing the work, and improving it along the way.
         </p>
       </div>
 
@@ -367,8 +369,9 @@ export default function Work() {
             >
               <p className={styles.num}>0{i + 1}</p>
               <p className={styles.name}>{s.name}</p>
+              <p className={styles.tagline}>{s.tagline}</p>
               <div className={styles.copyBox}>
-                <span>{s.phase}</span>
+                <span>{s.copy}</span>
               </div>
             </div>
           </li>

@@ -29,7 +29,7 @@ export default function Hero() {
           </span>
           <span data-line="">
             <span className={styles.titleGreen} style={{ animationDelay: ".12s" }}>
-              Marketing it Shouldn&apos;t be.
+              Marketing it shouldn&apos;t be.
             </span>
           </span>
         </h1>
@@ -86,12 +86,8 @@ export default function Hero() {
       </div>
 
       <div className={styles.foot}>
-        <p className={styles.lede}>
-          We’re a <strong>BFSI-focused marketing agency</strong> combining domain expertise and creativity to build
-          communications that drive impact.
-        </p>
         <a href="#brief" data-magnetic="" className={`btn ${styles.cta}`}>
-          Talk to Us About Your Brief →
+          Let&apos;s Talk →
         </a>
       </div>
     </section>

@@ -20,22 +20,7 @@ function Card({ c, hidden }: { c: Client; hidden?: boolean }) {
 export default function Clients() {
   return (
     <section id="clients" data-reveal="" className={styles.section}>
-      <div className={`container ${styles.head}`}>
-        <div>
-          <p className={`eyebrow ${styles.eyebrow}`}>Clients &amp; Partners</p>
-          <h2 className={styles.title}>
-            Brands{" "}
-            <span className={styles.tile} aria-hidden="true">
-              ◆
-            </span>{" "}
-            we work with
-          </h2>
-        </div>
-        <p className={styles.intro}>
-          We work with brands across the <strong>financial ecosystem</strong>, understanding their products, audiences
-          and the nuances that shape impactful communication.
-        </p>
-      </div>
+      <h2 className={`container ${styles.title}`}>Trusted by 70+ brands across the financial ecosystem.</h2>
 
       <div className={styles.marquee}>
         {clientRows.map((row, r) => (

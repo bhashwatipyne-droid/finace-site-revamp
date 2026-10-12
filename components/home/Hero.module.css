@@ -289,18 +289,6 @@
   align-items: center;
   text-align: center;
 }
-.lede {
-  margin: 0;
-  max-width: 62ch;
-  font-size: 17px;
-  line-height: 1.65;
-  color: #c9cbcd;
-  text-wrap: pretty;
-}
-.lede strong {
-  font-weight: 800;
-  color: #ffffff;
-}
 .cta {
   background: var(--grad-cta);
   color: #ffffff;
@@ -398,9 +386,6 @@
   }
   .emblem img {
     width: 40px;
-  }
-  .lede {
-    font-size: 16px;
   }
 }
 

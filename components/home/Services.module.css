@@ -22,10 +22,12 @@
 }
 .intro {
   margin: 16px 0 0;
-  max-width: 56ch;
-  font-size: 17px;
-  line-height: 1.65;
+  max-width: 46ch;
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 600;
+  line-height: 1.45;
   color: var(--text-4);
+  text-wrap: balance;
 }
 
 .stack {
@@ -44,7 +46,7 @@
   color: var(--ink);
   box-shadow: 0 26px 70px rgba(17, 17, 17, 0.16);
   border: 1px solid rgba(17, 17, 17, 0.07);
-  padding: 30px 34px 32px;
+  padding: 30px 34px 60px;
   transform: rotate(-0.7deg);
   transition:
     transform 0.55s var(--ease-out),
@@ -101,12 +103,29 @@
   gap: 28px;
   align-items: start;
 }
+.lead {
+  display: grid;
+  gap: 10px;
+  max-width: 42ch;
+}
+.headline {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.green .headline {
+  color: #ffffff;
+}
 .copy {
   margin: 0;
-  max-width: 40ch;
   font-size: 15px;
   line-height: 1.65;
   color: var(--text-4);
+  text-wrap: pretty;
 }
 .green .copy {
   color: rgba(255, 255, 255, 0.82);
@@ -133,6 +152,18 @@
 .li {
   opacity: 0.5;
   font-weight: 700;
+}
+.list li.listLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--olive);
+  margin-bottom: 2px;
+}
+.green .list li.listLabel {
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .closer {
