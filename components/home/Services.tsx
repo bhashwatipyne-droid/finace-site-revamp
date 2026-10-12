@@ -7,7 +7,7 @@ export default function Services() {
       <div className={`container ${styles.head}`}>
         <p className={`eyebrow ${styles.eyebrow}`}>What We Do</p>
         <h2 className={styles.title}>Our Services</h2>
-        <p className={styles.intro}>Creating communication and experiences across formats, platforms and audiences.</p>
+        <p className={styles.intro}>Finance doesn&apos;t need more content. It needs better communication.</p>
       </div>
 
       <div className={styles.stack}>
@@ -18,8 +18,12 @@ export default function Services() {
               {s.title}
             </h3>
             <div className={styles.body}>
-              <p className={styles.copy}>{s.copy}</p>
+              <div className={styles.lead}>
+                <p className={styles.headline}>{s.headline}</p>
+                <p className={styles.copy}>{s.copy}</p>
+              </div>
               <ol className={styles.list}>
+                <li className={styles.listLabel}>What we solve</li>
                 {s.items.map((item, j) => (
                   <li key={item}>
                     <span className={styles.li}>0{j + 1}</span>

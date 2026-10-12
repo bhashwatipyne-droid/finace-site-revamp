@@ -74,24 +74,20 @@
   outline-offset: 6px;
   border-radius: 6px;
 }
-/* resting positions before the canvas takes over (from the prototype) */
+/* resting positions before the canvas takes over (from the design) */
 .labels li:nth-child(1) .label {
   left: 6%;
   top: 58%;
 }
 .labels li:nth-child(2) .label {
-  left: 24%;
-  top: 47%;
-}
-.labels li:nth-child(3) .label {
   left: 42%;
   top: 36%;
 }
-.labels li:nth-child(4) .label {
+.labels li:nth-child(3) .label {
   left: 60%;
   top: 25%;
 }
-.labels li:nth-child(5) .label {
+.labels li:nth-child(4) .label {
   left: 78%;
   top: 14%;
 }
@@ -110,6 +106,15 @@
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--green-ink);
+}
+
+.tagline {
+  margin: 4px 0 0;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(220, 239, 180, 0.78);
 }
 
 .copyBox {
@@ -131,12 +136,11 @@
   -webkit-backdrop-filter: blur(8px);
 }
 .copyBox span {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--green);
-  line-height: 1.5;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: #e6f2cf;
+  text-wrap: pretty;
 }
 .label[data-on="true"] .copyBox {
   opacity: 1;
@@ -191,7 +195,7 @@
   .stage {
     position: relative;
     inset: auto;
-    height: 640px;
+    height: 820px;
     margin-top: 40px;
   }
   .name {

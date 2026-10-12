@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/home/Hero";
 import Numbers from "@/components/shared/Numbers";
 import Clients from "@/components/home/Clients";
+import Ask from "@/components/home/Ask";
 import Work from "@/components/home/Work";
 import Services from "@/components/home/Services";
 import Testimonials from "@/components/home/Testimonials";
@@ -16,8 +17,9 @@ export default function HomePage() {
       <Header active="home" cta={{ label: "Brief Us", href: "#brief" }} />
       <main>
         <Hero />
-        <Numbers stats={homeStats} variant="home" />
         <Clients />
+        <Ask />
+        <Numbers stats={homeStats} variant="home" />
         <Work />
         <Services />
         <Testimonials />

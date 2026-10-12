@@ -1,3 +1,13 @@
+/* Scoped with this module so the animation name resolves (see Hero.module.css). */
+@keyframes fmarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 .section {
   padding: 104px 0 110px;
   background: #f7f8f5;
@@ -18,16 +28,30 @@
   letter-spacing: -0.035em;
 }
 
-.grid {
-  margin-top: 48px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
-  gap: 22px;
+.marquee {
+  margin-top: 40px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.track {
+  display: flex;
   align-items: stretch;
+  gap: 22px;
+  width: max-content;
+  padding: 4px 11px;
+  animation: fmarquee 60s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .track,
+.marquee:focus-within .track {
+  animation-play-state: paused;
 }
 
 .card {
   margin: 0;
+  flex: none;
+  width: min(84vw, 440px);
   background: #ffffff;
   border: 1px solid #e6e9df;
   border-radius: 22px;
@@ -131,9 +155,8 @@
   .section {
     padding: 72px 0 80px;
   }
-  .grid {
-    margin-top: 36px;
-    gap: 16px;
+  .marquee {
+    margin-top: 32px;
   }
   .card {
     border-radius: 18px;
@@ -144,5 +167,14 @@
   .cap {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+  .marquee {
+    overflow-x: auto;
   }
 }

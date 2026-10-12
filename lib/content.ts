@@ -58,8 +58,9 @@ export const homeStats = [
   { value: "70+", label: "BFSI Clients" },
   { value: "5", label: "Countries Served" },
   { value: "10+", label: "Years of Existence" },
-  { value: "30+", label: "Team Members" },
-  { value: "96%", label: "On-Time Delivery" },
+  { value: "95%+", label: "Client Retention" },
+  { value: "98%", label: "Clients via Referrals" },
+  { value: "5+ Years", label: "Client Tenure" },
 ];
 
 export const aboutStats = [
@@ -117,15 +118,31 @@ export const clientRows: Client[][] = [
 ];
 
 export const workSteps = [
-  { name: "Consulting", phase: "Understanding the requirement." },
-  { name: "Research", phase: "Digging deeper into the product." },
-  { name: "Strategy", phase: "Finding insights & stories worth building on." },
-  { name: "Creation", phase: "Bringing the strategy to life with creatives that connect." },
-  { name: "Experience", phase: "Getting it right at every step for a seamless experience." },
+  {
+    name: "Idea",
+    tagline: "Starting with the right idea",
+    copy: "Every project starts with an idea. We help shape it, challenge it and find the opportunity worth pursuing.",
+  },
+  {
+    name: "Strategy",
+    tagline: "Deciding how to make it work",
+    copy: "Message, approach and direction. We determine what needs to be said, who needs to hear it and how we can make it meaningful.",
+  },
+  {
+    name: "Execution & Compliance",
+    tagline: "Turning ideas into communication",
+    copy: "Production, adaptation and delivery. We turn the idea into communication that works across the required formats and platforms, with compliance built into the process from the start.",
+  },
+  {
+    name: "Review & Beyond",
+    tagline: "Keeping the work moving forward",
+    copy: "We review, learn and gather feedback to identify what can be improved, adapted or taken further.",
+  },
 ];
 
 export type Service = {
   title: string;
+  headline: string;
   copy: string;
   items: string[];
   tone: "sage" | "white" | "green" | "mist";
@@ -134,37 +151,50 @@ export type Service = {
 export const services: Service[] = [
   {
     title: "Content & Research",
-    copy: "From product stories to investor communication, we specialize in research-led storytelling that makes financial products easier to communicate.",
-    items: ["Creative Campaigns", "Performance Creatives", "Social & Digital Content", "Investor communication"],
+    headline: "Complex finance shouldn't require a finance degree.",
+    copy: "Financial products can be complicated. The communication doesn't have to be.",
+    items: ["Creative Campaigns", "Performance Creatives", "Social Media & Digital Content", "Investor Communication"],
     tone: "sage",
   },
   {
     title: "Creative Design & Visual Communication",
-    copy: "We build cohesive visual systems that bring ideas to life while creating consistent brand experiences.",
+    headline: "Good ideas deserve more than a good-looking execution.",
+    copy: "We turn strategy into visual communication that's clear and impactful across every touchpoint.",
     items: ["Campaign Identities", "Brand Assets", "Social Media Creatives", "Presentation & Sales Collaterals"],
     tone: "white",
   },
   {
     title: "Video & Animation",
-    copy: "Bringing products, propositions and campaigns to life through video, motion graphics and interactive experiences.",
+    headline: "If it's complicated, show it.",
+    copy: "Some financial concepts are easier to understand when you can see them, not just read them.",
     items: ["Product Videos", "Explainer Videos", "Motion Graphics & Reels", "Interactive Videos"],
     tone: "green",
   },
   {
     title: "Gamification & Merchandise",
-    copy: "Taking engagement beyond the screen through games, activations and physical experiences.",
+    headline: "Finance should never feel boring.",
+    copy: "When audiences need to participate, not just consume, communication needs to become an experience.",
     items: ["Phygital Games", "Investor Engagement Tools", "Merchandise & Physical Collaterals", "Event Experiences"],
     tone: "mist",
   },
   {
     title: "Digital Solutions",
-    copy: "Designing digital experiences that take audiences from information to action.",
+    headline: "Don't just tell people. Give them somewhere to go.",
+    copy: "A good digital experience can take an audience from understanding a product to actually doing something with that information.",
     items: ["Microsites", "Landing Pages", "Digital Journeys", "Calculators & Tools"],
     tone: "white",
   },
 ];
 
-export const testimonials = [
+export type Testimonial = {
+  quote: string;
+  detail: string;
+  name: string;
+  role: string;
+  linkedin?: string;
+};
+
+export const testimonials: Testimonial[] = [
   {
     quote: "FinAce has been a strong strategic partner for us — the rigour they bring to research stands out.",
     detail:
@@ -178,7 +208,7 @@ export const testimonials = [
     detail:
       "A strong, efficient team across research, content and design, with each member taking complete ownership. Their understanding of the mutual fund industry reflects in the quality and relevance of their work, making them a dependable partner.",
     name: "Anjali Nair",
-    role: "Now with Motilal Oswal · Ex ICICI Prudential MF",
+    role: "Deputy Manager, ICICI Prudential AMC",
     linkedin: "https://www.linkedin.com/in/anjali-nair-831111169",
   },
   {
@@ -187,7 +217,7 @@ export const testimonials = [
     detail:
       "Many agencies are good at design but completely miss concept clarity. Every time, FinAce brings new concepts to the desk that showcase both their subject understanding and marketing skills.",
     name: "Vishal Kapoor",
-    role: "Aditya Birla Capital",
+    role: "Deputy Vice President, Tata AIA Life Insurance",
     linkedin: "https://www.linkedin.com/in/vishal-kapoor-23808318",
   },
   {
@@ -195,10 +225,105 @@ export const testimonials = [
     detail:
       "For communications, mutual funds are one of the most challenging categories, with complicated products that need simple, creative marketing. FinAce has helped us create interesting communications by simplifying content and bringing in creativity.",
     name: "Gaurav Agrawal",
-    role: "Principal Mutual Fund",
+    role: "Vice President – Marketing, UTI Mutual Fund",
     linkedin: "https://www.linkedin.com/in/gaurav-agrawal-marketing",
   },
+  {
+    quote: "Working with this team has been an absolute pleasure.",
+    detail:
+      "They’ve delivered on multiple NFO campaigns for us, and their work ethic is second to none. What sets them apart is their ability to take complex financial concepts and translate them into clear, engaging language and clean designs that truly resonate with investors. They truly understand the mutual fund category and have excelled in creative execution in this space.",
+    name: "Sweta Mehta",
+    role: "AVP, ICICI Prudential AMC",
+  },
+  {
+    quote: "FinAce has been incredible to work with.",
+    detail:
+      "Their creative direction is spot-on, and their turnaround speed is really commendable — they get our vision right away, work amazingly fast, and are super professional through every revision. Keep it up, team FinAce!",
+    name: "Namrata Lonkar",
+    role: "AVP – Distribution Communication, Helios Mutual Fund",
+  },
 ];
+
+// "The problem" section: questions clients ask, each with a scripted answer.
+export type AskItem = { tag: string; icon: string; question: string; lead: string; answer: string; cta: string };
+
+export const askItems: AskItem[] = [
+  {
+    tag: "01 — Compliance",
+    icon: "M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h6",
+    question: "How do we build compliance into the idea without killing the creative?",
+    lead: "You shouldn't have to choose between compliance and creativity.",
+    answer:
+      "We bring compliance in from the start, understand the claims and requirements, and build them into the idea. That means fewer unnecessary revisions and more room for the creative to work.",
+    cta: "Build with compliance →",
+  },
+  {
+    tag: "02 — Concepts",
+    icon: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5",
+    question: "How do we turn complex financial concepts into something people actually understand?",
+    lead: "If we can't explain it simply, we probably don't understand it well enough yet.",
+    answer:
+      "We get into the concept first, then find the simplest way to communicate it without losing the meaning. The result is financial communication that feels clear, not watered down.",
+    cta: "Simplify the complex →",
+  },
+  {
+    tag: "03 — Context",
+    icon: "M4 20V10M10 20V4M16 20v-7M22 20H2",
+    question: "How do we make sure the communication fits the product, market and moment?",
+    lead: "The same message doesn't work in every context.",
+    answer:
+      "We look beyond the product itself. What's happening in the market? What does the audience already know? What's relevant right now? That context shapes what we say, how we say it and when we say it.",
+    cta: "Find the right context →",
+  },
+  {
+    tag: "04 — Audience",
+    icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8",
+    question: "How do we explain the same financial idea to different audiences?",
+    lead: "One product can need very different stories.",
+    answer:
+      "An investor, distributor and consumer don't read the same information in the same way. We adapt the message to what each audience needs to understand, remember and act on.",
+    cta: "Make it audience-ready →",
+  },
+  {
+    tag: "05 — Campaigns & Experiences",
+    icon: "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35",
+    question: "What kind of campaigns and experiences can you create to meet our marketing objectives?",
+    lead: "We don't just create content. We create experiences across formats, platforms and customer segments.",
+    answer:
+      "From NFO campaigns and investor communication to distributor engagement, case studies and gamification, we build around your marketing objectives.",
+    cta: "Explore our solutions →",
+  },
+  {
+    tag: "06 — Simplification",
+    icon: "M4 7h16M4 12h10M4 17h6",
+    question: "How do we turn financial jargon into language consumers actually understand?",
+    lead: "Simple doesn't mean simplistic.",
+    answer:
+      "We know which parts of a financial concept can be simplified, which need context and which cannot be compromised. Then we find the language that makes it click.",
+    cta: "Make finance make sense →",
+  },
+  {
+    tag: "07 — Format & Platform",
+    icon: "M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M15.5 9.5h.01",
+    question: "What's the best way to communicate this: video, carousel, landing page or something else?",
+    lead: "The format should serve the idea, not the other way around.",
+    answer:
+      "We start with the objective, audience and message. Then we choose the format and platform that give the communication the best chance of being understood and remembered.",
+    cta: "Find the right format →",
+  },
+  {
+    tag: "08 — Process",
+    icon: "M21 12a9 9 0 1 1-3-6.7M21 4v5h-5",
+    question: "How do we get from brief to final without endless rounds of revisions?",
+    lead: "Good work shouldn't need endless rounds to get there.",
+    answer:
+      "The right people need to be involved from the beginning. With domain understanding, context and compliance built into the process, we reduce unnecessary back-and-forth and keep the work moving.",
+    cta: "Make the process easier →",
+  },
+];
+
+export const askFallback =
+  "That's exactly the kind of brief we love. Share the details and our BFSI team will come back with a clear, compliant way to tell it.";
 
 export const briefQuestions = [
   { key: "need", label: "What is your requirement?", options: ["Campaign", "Video", "Website", "Merchandise", "Not sure yet"] },
