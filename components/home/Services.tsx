@@ -7,7 +7,6 @@ export default function Services() {
       <div className={`container ${styles.head}`}>
         <p className={`eyebrow ${styles.eyebrow}`}>What We Do</p>
         <h2 className={styles.title}>Our Services</h2>
-        <p className={styles.intro}>Finance doesn&apos;t need more content. It needs better communication.</p>
       </div>
 
       <div className={styles.stack}>

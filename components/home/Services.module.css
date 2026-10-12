@@ -20,15 +20,6 @@
   letter-spacing: -0.04em;
   line-height: 1;
 }
-.intro {
-  margin: 16px 0 0;
-  max-width: 46ch;
-  font-size: clamp(18px, 1.6vw, 22px);
-  font-weight: 600;
-  line-height: 1.45;
-  color: var(--text-4);
-  text-wrap: balance;
-}
 
 .stack {
   margin-top: 64px;
