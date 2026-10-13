@@ -27,7 +27,6 @@ export const metadata: Metadata = {
   },
   description:
     "FinAce is a BFSI-focused marketing agency combining domain expertise and creativity to build communications that drive impact.",
-  icons: { icon: "/brand/finace-icon.svg" },
   openGraph: {
     type: "website",
     siteName: "FinAce",
