@@ -11,7 +11,7 @@ function Card({ c, hidden }: { c: Client; hidden?: boolean }) {
       </div>
       <div className={styles.meta}>
         <span className={styles.name}>{c.name}</span>
-        <span className={styles.cat}>{c.category}</span>
+        <span className={styles.cat}>{c.tag ? `${c.category} · ${c.tag}` : c.category}</span>
       </div>
     </article>
   );

@@ -20,8 +20,8 @@ export default function HomePage() {
         <Clients />
         <Ask />
         <Numbers stats={homeStats} variant="home" />
-        <Work />
         <Services />
+        <Work />
         <Testimonials />
         <BriefBuilder variant="home" source="home" />
         <StartHere />
