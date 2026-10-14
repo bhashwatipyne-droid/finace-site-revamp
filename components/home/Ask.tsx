@@ -162,8 +162,8 @@ export default function Ask() {
     };
   }, [measure]);
 
-  const bottomTop = Math.max(672, HUB_TOP + hubH + 64);
-  const stageH = bottomTop + 200;
+  const bottomTop = Math.max(600, HUB_TOP + hubH + 40);
+  const stageH = bottomTop + 160;
   const leadShown = chat ? chat.lead.slice(0, Math.min(shown, chat.lead.length)) : "";
   const answerShown = chat ? chat.answer.slice(0, Math.max(0, shown - chat.lead.length)) : "";
   const done = !!chat && !thinking && shown >= chat.lead.length + chat.answer.length;
@@ -174,9 +174,9 @@ export default function Ask() {
     <section id="ask" data-reveal="" className={styles.section} aria-labelledby="ask-title">
       <div className={styles.wrap}>
         <div className={styles.head}>
-          <p className={`eyebrow ${styles.eyebrow}`}>The Problem</p>
+          <p className={`eyebrow ${styles.eyebrow}`}>The Difference</p>
           <h2 id="ask-title" className={styles.title}>
-            Marketing finance isn&apos;t like <span className={styles.grad}>marketing anything else.</span>
+            What if your marketing process <span className={styles.grad}>took 80% less time?</span>
           </h2>
           <p className={styles.intro}>
             The products are complex, the regulations are strict, the audiences are different, and the markets are

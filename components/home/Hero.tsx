@@ -25,11 +25,11 @@ export default function Hero() {
       <div className={styles.head}>
         <h1 className={styles.title}>
           <span data-line="">
-            <span>Finance is Complex,</span>
+            <span>Marketing finance isn&apos;t like</span>
           </span>
           <span data-line="">
             <span className={styles.titleGreen} style={{ animationDelay: ".12s" }}>
-              Marketing it shouldn&apos;t be.
+              marketing anything else.
             </span>
           </span>
         </h1>
