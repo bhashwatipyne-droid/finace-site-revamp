@@ -84,12 +84,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
-      <div className={styles.foot}>
-        <a href="#brief" data-magnetic="" className={`btn ${styles.cta}`}>
-          Let&apos;s Talk →
-        </a>
-      </div>
     </section>
   );
 }

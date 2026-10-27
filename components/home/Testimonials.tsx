@@ -39,7 +39,7 @@ export default function Testimonials() {
       <div className="container">
         <div className={styles.head}>
           <p className={`eyebrow ${styles.eyebrow}`}>Testimonials</p>
-          <h2 className={styles.title}>What our partners say.</h2>
+          <h2 className={styles.title}>What our clients say.</h2>
         </div>
       </div>
       <div className={styles.marquee}>

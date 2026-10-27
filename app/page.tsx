@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Hero from "@/components/home/Hero";
+import Expert from "@/components/home/Expert";
 import Numbers from "@/components/shared/Numbers";
 import Clients from "@/components/home/Clients";
 import Ask from "@/components/home/Ask";
@@ -17,8 +18,9 @@ export default function HomePage() {
       <Header active="home" cta={{ label: "Brief Us", href: "#brief" }} />
       <main>
         <Hero />
-        <Clients />
+        <Expert />
         <Ask />
+        <Clients />
         <Numbers stats={homeStats} variant="home" />
         <Services />
         <Work />
