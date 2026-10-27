@@ -5,15 +5,13 @@ import { askFallback, askItems } from "@/lib/content";
 import styles from "./Ask.module.css";
 
 // Card placement around the chat box (from the design): three down each side, two underneath.
-const PLACES: { side: "l" | "r" | "b"; k: number }[] = [
+const PLACES: { side: "l" | "r"; k: number }[] = [
   { side: "l", k: 0 },
   { side: "l", k: 1 },
   { side: "l", k: 2 },
   { side: "r", k: 0 },
   { side: "r", k: 1 },
   { side: "r", k: 2 },
-  { side: "b", k: 0 },
-  { side: "b", k: 1 },
 ];
 const HUB_TOP = 228;
 // Below this width the cards stack under the chat box and the connector lines are hidden.
@@ -122,18 +120,12 @@ export default function Ask() {
         x2 = hx;
         y2 = hy + hh * (0.3 + 0.2 * k);
         d = `M${x1} ${y1} C${x1 + 80} ${y1} ${x2 - 80} ${y2} ${x2} ${y2}`;
-      } else if (side === "r") {
+      } else {
         x1 = b.left - r.left - 16;
         y1 = b.top - r.top + b.height / 2;
         x2 = hx + hw;
         y2 = hy + hh * (0.3 + 0.2 * k);
         d = `M${x1} ${y1} C${x1 - 80} ${y1} ${x2 + 80} ${y2} ${x2} ${y2}`;
-      } else {
-        x1 = b.left - r.left + b.width / 2;
-        y1 = b.top - r.top - 16;
-        x2 = hx + hw * (k ? 0.7 : 0.3);
-        y2 = hy + hh;
-        d = `M${x1} ${y1} C${x1} ${y1 - 70} ${x2} ${y2 + 70} ${x2} ${y2}`;
       }
       return { i, d: d.replace(/(\d+\.\d)\d+/g, "$1"), x1, y1 };
     }).filter(Boolean) as Geo["paths"];
@@ -162,8 +154,9 @@ export default function Ask() {
     };
   }, [measure]);
 
-  const bottomTop = Math.max(600, HUB_TOP + hubH + 40);
-  const stageH = bottomTop + 160;
+  // Three card rows per side (tops 0/200/400, card ~140 tall) and the chat box,
+  // whichever reaches lower, plus a little breathing room.
+  const stageH = Math.max(400 + 150, HUB_TOP + hubH) + 56;
   const leadShown = chat ? chat.lead.slice(0, Math.min(shown, chat.lead.length)) : "";
   const answerShown = chat ? chat.answer.slice(0, Math.max(0, shown - chat.lead.length)) : "";
   const done = !!chat && !thinking && shown >= chat.lead.length + chat.answer.length;
@@ -174,9 +167,9 @@ export default function Ask() {
     <section id="ask" data-reveal="" className={styles.section} aria-labelledby="ask-title">
       <div className={styles.wrap}>
         <div className={styles.head}>
-          <p className={`eyebrow ${styles.eyebrow}`}>The Difference</p>
+          <p className={`eyebrow ${styles.eyebrow}`}>How FinAce Helps</p>
           <h2 id="ask-title" className={styles.title}>
-            What if your marketing process <span className={styles.grad}>took 80% less time?</span>
+            What if your marketing campaign <span className={styles.grad}>took 80% less time?</span>
           </h2>
           <p className={styles.intro}>
             The products are complex, the regulations are strict, the audiences are different, and the markets are
@@ -331,7 +324,6 @@ export default function Ask() {
                   className={`${styles.card} ${on ? styles.cardOn : ""}`}
                   data-side={side}
                   data-k={k}
-                  style={side === "b" && !stacked ? { top: bottomTop } : undefined}
                   onClick={() => pick(i)}
                   aria-pressed={on}
                 >

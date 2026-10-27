@@ -55,12 +55,20 @@ export const heroRows: ChipRow[] = [
 ];
 
 export const homeStats = [
-  { value: "70+", label: "BFSI Clients" },
   { value: "5", label: "Countries Served" },
   { value: "10+", label: "Years of Existence" },
   { value: "95%+", label: "Client Retention" },
   { value: "98%", label: "Clients via Referrals" },
-  { value: "5+ Years", label: "Client Tenure" },
+  { value: "5+ Years", label: "Avg Client Tenure" },
+];
+
+export type ExpertCard = { num: string; title: string; copy: string };
+
+// "So you need a FINANCE domain expert" — the three reasons (icons inline in Expert.tsx).
+export const expertCards: ExpertCard[] = [
+  { num: "01", title: "Feels simple and creative", copy: "Complex products, explained in a way people appreciate." },
+  { num: "02", title: "Stays compliant", copy: "Disclaimers and disclosures built in from day one." },
+  { num: "03", title: "Connects with every audience", copy: "Investors, distributors and stakeholders alike." },
 ];
 
 export const aboutStats = [
@@ -251,7 +259,7 @@ export const askItems: AskItem[] = [
   {
     tag: "01 — Compliance",
     icon: "M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h6",
-    question: "How do we build compliance into the idea without killing the creative?",
+    question: "Can you keep our campaign compliant without killing the creative idea?",
     lead: "You shouldn't have to choose between compliance and creativity.",
     answer:
       "We bring compliance in from the start, understand the claims and requirements, and build them into the idea. That means fewer unnecessary revisions and more room for the creative to work.",
@@ -260,61 +268,43 @@ export const askItems: AskItem[] = [
   {
     tag: "02 — Concepts",
     icon: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5",
-    question: "How do we turn complex financial concepts into something people actually understand?",
+    question: "Can you make our complex product easy for investors to understand?",
     lead: "If we can't explain it simply, we probably don't understand it well enough yet.",
     answer:
       "We get into the concept first, then find the simplest way to communicate it without losing the meaning. The result is financial communication that feels clear, not watered down.",
     cta: "Simplify the complex →",
   },
   {
-    tag: "03 — Context",
-    icon: "M4 20V10M10 20V4M16 20v-7M22 20H2",
-    question: "How do we make sure the communication fits the product, market and moment?",
-    lead: "The same message doesn't work in every context.",
-    answer:
-      "We look beyond the product itself. What's happening in the market? What does the audience already know? What's relevant right now? That context shapes what we say, how we say it and when we say it.",
-    cta: "Find the right context →",
-  },
-  {
-    tag: "04 — Audience",
+    tag: "03 — Audience",
     icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8",
-    question: "How do we explain the same financial idea to different audiences?",
+    question: "Can you tailor one message for our investors, distributors and stakeholders?",
     lead: "One product can need very different stories.",
     answer:
       "An investor, distributor and consumer don't read the same information in the same way. We adapt the message to what each audience needs to understand, remember and act on.",
     cta: "Make it audience-ready →",
   },
   {
-    tag: "05 — Campaigns & Experiences",
+    tag: "04 — Campaigns & Experiences",
     icon: "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35",
-    question: "What kind of campaigns and experiences can you create to meet our marketing objectives?",
+    question: "What campaigns and experiences can you create to meet our marketing objectives?",
     lead: "We don't just create content. We create experiences across formats, platforms and customer segments.",
     answer:
       "From NFO campaigns and investor communication to distributor engagement, case studies and gamification, we build around your marketing objectives.",
     cta: "Explore our solutions →",
   },
   {
-    tag: "06 — Simplification",
-    icon: "M4 7h16M4 12h10M4 17h6",
-    question: "How do we turn financial jargon into language consumers actually understand?",
-    lead: "Simple doesn't mean simplistic.",
-    answer:
-      "We know which parts of a financial concept can be simplified, which need context and which cannot be compromised. Then we find the language that makes it click.",
-    cta: "Make finance make sense →",
-  },
-  {
-    tag: "07 — Format & Platform",
+    tag: "05 — Format & Platform",
     icon: "M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6M15.5 9.5h.01",
-    question: "What's the best way to communicate this: video, carousel, landing page or something else?",
+    question: "Which format will work best for us: video, carousel, landing page or something else?",
     lead: "The format should serve the idea, not the other way around.",
     answer:
       "We start with the objective, audience and message. Then we choose the format and platform that give the communication the best chance of being understood and remembered.",
     cta: "Find the right format →",
   },
   {
-    tag: "08 — Process",
+    tag: "06 — Process",
     icon: "M21 12a9 9 0 1 1-3-6.7M21 4v5h-5",
-    question: "How do we get from brief to final without endless rounds of revisions?",
+    question: "Can you take our brief to final without endless rounds of revisions?",
     lead: "Good work shouldn't need endless rounds to get there.",
     answer:
       "The right people need to be involved from the beginning. With domain understanding, context and compliance built into the process, we reduce unnecessary back-and-forth and keep the work moving.",
