@@ -13,7 +13,7 @@ const PLACES: { side: "l" | "r"; k: number }[] = [
   { side: "r", k: 1 },
   { side: "r", k: 2 },
 ];
-const HUB_TOP = 228;
+const HUB_TOP = 108;
 // Below this width the cards stack under the chat box and the connector lines are hidden.
 const STACK_BELOW = 1100;
 
@@ -24,6 +24,7 @@ export default function Ask() {
   const stageRef = useRef<HTMLDivElement>(null);
   const hubRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const colRefs = useRef<(HTMLDivElement | null)[]>([]);
   const timers = useRef<{ wait?: number; type?: number }>({});
 
   const [chat, setChat] = useState<Chat>(null);
@@ -31,6 +32,7 @@ export default function Ask() {
   const [shown, setShown] = useState(0);
   const [input, setInput] = useState("");
   const [hubH, setHubH] = useState(130);
+  const [colH, setColH] = useState(0);
   const [geo, setGeo] = useState<Geo | null>(null);
   const [stacked, setStacked] = useState(false);
 
@@ -99,6 +101,8 @@ export default function Ask() {
     const isStacked = window.innerWidth < STACK_BELOW;
     setStacked(isStacked);
     setHubH(Math.round(hub.getBoundingClientRect().height));
+    const cols = colRefs.current.filter(Boolean) as HTMLDivElement[];
+    setColH(Math.round(Math.max(0, ...cols.map((c) => c.getBoundingClientRect().height))));
     if (isStacked) {
       setGeo(null);
       return;
@@ -143,6 +147,7 @@ export default function Ask() {
     const ro = new ResizeObserver(() => measure());
     ro.observe(st);
     ro.observe(hub);
+    colRefs.current.forEach((c) => c && ro.observe(c));
     window.addEventListener("resize", measure);
     // Cards slide when the chat box grows; re-measure once that transition settles.
     const onEnd = () => measure();
@@ -154,9 +159,9 @@ export default function Ask() {
     };
   }, [measure]);
 
-  // Three card rows per side (tops 0/200/400, card ~140 tall) and the chat box,
-  // whichever reaches lower, plus a little breathing room.
-  const stageH = Math.max(400 + 150, HUB_TOP + hubH) + 56;
+  // Matches the design: the stage is as tall as the chat box or the card
+  // columns (whichever is taller), with a sensible floor — no empty orbit.
+  const stageH = Math.max(480, HUB_TOP + hubH + 40, colH + 16);
   const leadShown = chat ? chat.lead.slice(0, Math.min(shown, chat.lead.length)) : "";
   const answerShown = chat ? chat.answer.slice(0, Math.max(0, shown - chat.lead.length)) : "";
   const done = !!chat && !thinking && shown >= chat.lead.length + chat.answer.length;
@@ -311,37 +316,47 @@ export default function Ask() {
           </div>
 
           <div className={styles.cards}>
-            {askItems.map((item, i) => {
-              const { side, k } = PLACES[i];
-              const on = active === i;
-              return (
-                <button
-                  key={item.tag}
-                  ref={(el) => {
-                    cardRefs.current[i] = el;
-                  }}
-                  type="button"
-                  className={`${styles.card} ${on ? styles.cardOn : ""}`}
-                  data-side={side}
-                  data-k={k}
-                  onClick={() => pick(i)}
-                  aria-pressed={on}
-                >
-                  <span className={styles.cardIcon} aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-                      <path d={item.icon} />
-                    </svg>
-                  </span>
-                  <span className={styles.cardText}>
-                    <span className={styles.cardTag}>{item.tag}</span>
-                    <span className={styles.cardQ}>{item.question}</span>
-                  </span>
-                  <span className={styles.cardArrow} aria-hidden="true">
-                    →
-                  </span>
-                </button>
-              );
-            })}
+            {(["l", "r"] as const).map((col) => (
+              <div
+                key={col}
+                data-col={col}
+                className={styles.col}
+                ref={(el) => {
+                  colRefs.current[col === "l" ? 0 : 1] = el;
+                }}
+              >
+                {askItems.map((item, i) => {
+                  if (PLACES[i].side !== col) return null;
+                  const on = active === i;
+                  return (
+                    <button
+                      key={item.tag}
+                      ref={(el) => {
+                        cardRefs.current[i] = el;
+                      }}
+                      type="button"
+                      className={`${styles.card} ${on ? styles.cardOn : ""}`}
+                      data-side={PLACES[i].side}
+                      onClick={() => pick(i)}
+                      aria-pressed={on}
+                    >
+                      <span className={styles.cardIcon} aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                          <path d={item.icon} />
+                        </svg>
+                      </span>
+                      <span className={styles.cardText}>
+                        <span className={styles.cardTag}>{item.tag}</span>
+                        <span className={styles.cardQ}>{item.question}</span>
+                      </span>
+                      <span className={styles.cardArrow} aria-hidden="true">
+                        →
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
           </div>
         </div>
       </div>
