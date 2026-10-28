@@ -74,7 +74,7 @@
 .ringInner {
   position: absolute;
   left: 50%;
-  top: 330px;
+  top: 250px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: none;
@@ -93,7 +93,7 @@
 .emblem {
   position: absolute;
   left: 50%;
-  top: 136px;
+  top: 20px;
   transform: translateX(-50%);
   z-index: 2;
   width: 68px;
@@ -115,8 +115,8 @@
 .hub {
   position: absolute;
   left: 50%;
-  top: 228px;
-  width: 36%;
+  top: 108px;
+  width: 32%;
   transform: translateX(-50%);
   z-index: 3;
   background: #f4f5f2;
@@ -303,13 +303,28 @@
   transform: scale(1.07);
 }
 
-/* ---------- question cards ---------- */
-.card {
+/* ---------- question cards (two stacked columns) ---------- */
+.col {
   position: absolute;
-  width: 28.5%;
+  top: 0;
+  width: 31%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  z-index: 2;
+}
+.col[data-col="l"] {
+  left: 0;
+}
+.col[data-col="r"] {
+  right: 0;
+}
+
+.card {
+  width: 100%;
   z-index: 2;
   display: grid;
-  grid-template-columns: 44px 1fr 28px;
+  grid-template-columns: 40px 1fr 28px;
   gap: 12px;
   align-items: start;
   padding: 14px 16px;
@@ -321,7 +336,6 @@
   background: rgba(20, 22, 18, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition:
-    top 0.35s var(--ease-out),
     background 0.3s,
     border-color 0.3s,
     box-shadow 0.3s;
@@ -336,42 +350,9 @@
   box-shadow: 0 0 36px rgba(158, 196, 77, 0.28);
 }
 
-.card[data-side="l"][data-k="0"] {
-  left: 3%;
-  top: 0;
-}
-.card[data-side="l"][data-k="1"] {
-  left: 0;
-  top: 200px;
-}
-.card[data-side="l"][data-k="2"] {
-  left: 1.5%;
-  top: 400px;
-}
-.card[data-side="r"][data-k="0"] {
-  right: 3%;
-  top: 0;
-}
-.card[data-side="r"][data-k="1"] {
-  right: 0;
-  top: 200px;
-}
-.card[data-side="r"][data-k="2"] {
-  right: 1.5%;
-  top: 400px;
-}
-.card[data-side="b"][data-k="0"] {
-  left: 20%;
-  top: 600px;
-}
-.card[data-side="b"][data-k="1"] {
-  left: 51.5%;
-  top: 600px;
-}
-
 .cardIcon {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -458,8 +439,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
   }
-  .card,
-  .card[data-side][data-k] {
+  /* flatten the two columns into the grid so all six cards flow evenly */
+  .col {
+    display: contents;
+  }
+  .card {
     position: static;
     width: auto;
   }
